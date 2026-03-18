@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Letter Method</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600&family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="parchment"] {
+  --bg: #f5f0e8;
+  --bg-card: #fffcf5;
+  --ink: #2c2416;
+  --ink-soft: #6b5d4d;
+  --ink-faint: #b0a390;
+  --accent: #c0553a;
+  --accent-glow: #c0553a22;
+  --accent-light: #f0d8cf;
+  --reveal-bg: #e8f5e4;
+  --reveal-border: #7aab6d;
+  --spoiler-bg: #e0d8cc;
+  --spoiler-hover: #d4c9b8;
+  --line-reveal-bg: #fef9e7;
+  --radius: 6px;
+  --shadow: 0 2px 12px rgba(44,36,22,0.08);
+  --shadow-lg: 0 8px 32px rgba(44,36,22,0.12);
+  --font-body: 'Source Sans 3', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-display: 'DM Serif Display', serif;
+  --letter-spacing-body: 0;
+  --line-height-body: 1.6;
+}
+
+/* ── Clean Light ── */
+[data-theme="light"] {
+  --bg: #f4f5f7;
+  --bg-card: #ffffff;
+  --ink: #1a1a2e;
+  --ink-soft: #555770;
+  --ink-faint: #9a9cb0;
+  --accent: #4361ee;
+  --accent-glow: #4361ee20;
+  --accent-light: #d0d9fc;
+  --reveal-bg: #e0f5e9;
+  --reveal-border: #34a853;
+  --spoiler-bg: #e2e4ea;
+  --spoiler-hover: #d0d3dc;
+  --line-reveal-bg: #eef8f0;
+  --shadow: 0 2px 12px rgba(26,26,46,0.06);
+  --shadow-lg: 0 8px 32px rgba(26,26,46,0.1);
+}
+
+/* ── Dark ── */
+[data-theme="dark"] {
+  --bg: #1a1a2e;
+  --bg-card: #22223a;
+  --ink: #e0e0ec;
+  --ink-soft: #9a9ab0;
+  --ink-faint: #5c5c72;
+  --accent: #f0a050;
+  --accent-glow: #f0a05025;
+  --accent-light: #3d3020;
+  --reveal-bg: #1e3328;
+  --reveal-border: #5aad6a;
+  --spoiler-bg: #2e2e48;
+  --spoiler-hover: #3a3a56;
+  --line-reveal-bg: #1e2e1e;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* ── Midnight ── */
+[data-theme="midnight"] {
+  --bg: #0f1626;
+  --bg-card: #182035;
+  --ink: #c8d6e5;
+  --ink-soft: #7a8da6;
+  --ink-faint: #3f516a;
+  --accent: #54a0ff;
+  --accent-glow: #54a0ff22;
+  --accent-light: #1a3050;
+  --reveal-bg: #152e22;
+  --reveal-border: #48b06a;
+  --spoiler-bg: #1e2a40;
+  --spoiler-hover: #263552;
+  --line-reveal-bg: #14261a;
+  --shadow: 0 2px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* ── Ocean ── */
+[data-theme="ocean"] {
+  --bg: #e8f1f5;
+  --bg-card: #f2f9fc;
+  --ink: #1b3a4b;
+  --ink-soft: #4a7389;
+  --ink-faint: #8fb0c4;
+  --accent: #0077b6;
+  --accent-glow: #0077b620;
+  --accent-light: #cce5f0;
+  --reveal-bg: #d5f0e8;
+  --reveal-border: #2a9d8f;
+  --spoiler-bg: #d0dfe6;
+  --spoiler-hover: #bdd0da;
+  --line-reveal-bg: #e4f5f0;
+  --shadow: 0 2px 12px rgba(27,58,75,0.08);
+  --shadow-lg: 0 8px 32px rgba(27,58,75,0.12);
+}
+
+/* ── Forest ── */
+[data-theme="forest"] {
+  --bg: #eaf0e6;
+  --bg-card: #f5f9f3;
+  --ink: #1e3320;
+  --ink-soft: #4a6b4e;
+  --ink-faint: #8daa90;
+  --accent: #2d6a4f;
+  --accent-glow: #2d6a4f20;
+  --accent-light: #c8e0cc;
+  --reveal-bg: #d4edda;
+  --reveal-border: #52b788;
+  --spoiler-bg: #d2dece;
+  --spoiler-hover: #c0cebd;
+  --line-reveal-bg: #e0f0e2;
+  --shadow: 0 2px 12px rgba(30,51,32,0.08);
+  --shadow-lg: 0 8px 32px rgba(30,51,32,0.12);
+}
+
+/* ── Rose ── */
+[data-theme="rose"] {
+  --bg: #f8eff2;
+  --bg-card: #fdf6f8;
+  --ink: #3d1f2e;
+  --ink-soft: #7a5068;
+  --ink-faint: #b89aaa;
+  --accent: #c44569;
+  --accent-glow: #c4456920;
+  --accent-light: #f0d0da;
+  --reveal-bg: #e8f0e4;
+  --reveal-border: #6aaa78;
+  --spoiler-bg: #eadde2;
+  --spoiler-hover: #ddced5;
+  --line-reveal-bg: #f6ede8;
+  --shadow: 0 2px 12px rgba(61,31,46,0.08);
+  --shadow-lg: 0 8px 32px rgba(61,31,46,0.12);
+}
+
+/* ── High Contrast ── */
+[data-theme="highcontrast"] {
+  --bg: #ffffff;
+  --bg-card: #ffffff;
+  --ink: #000000;
+  --ink-soft: #222222;
+  --ink-faint: #555555;
+  --accent: #cc0000;
+  --accent-glow: #cc000022;
+  --accent-light: #ffe0e0;
+  --reveal-bg: #ccffcc;
+  --reveal-border: #008800;
+  --spoiler-bg: #cccccc;
+  --spoiler-hover: #aaaaaa;
+  --line-reveal-bg: #eeffee;
+  --shadow: 0 0 0 2px #000;
+  --shadow-lg: 0 0 0 3px #000;
+}
+[data-theme="highcontrast"] .study-card,
+[data-theme="highcontrast"] .input-phase,
+[data-theme="highcontrast"] .progress,
+[data-theme="highcontrast"] .size-btn,
+[data-theme="highcontrast"] .btn-secondary {
+  border-width: 2px;
+  border-color: #000;
+}
+[data-theme="highcontrast"] .line-toggle {
+  border-width: 2px;
+}
+
+/* ── Dyslexia Friendly ── */
+[data-theme="dyslexia"] {
+  --bg: #faf5e4;
+  --bg-card: #fefcf1;
+  --ink: #2e2b1f;
+  --ink-soft: #5c5845;
+  --ink-faint: #918b72;
+  --accent: #b44d1e;
+  --accent-glow: #b44d1e22;
+  --accent-light: #f0d8c8;
+  --reveal-bg: #ddf0d4;
+  --reveal-border: #5ea050;
+  --spoiler-bg: #e4ddc8;
+  --spoiler-hover: #d6ccb2;
+  --line-reveal-bg: #f5f0d8;
+  --shadow: 0 2px 12px rgba(46,43,31,0.08);
+  --shadow-lg: 0 8px 32px rgba(46,43,31,0.12);
+  --font-body: 'Lexend', sans-serif;
+  --font-mono: 'Lexend', sans-serif;
+  --letter-spacing-body: 0.04em;
+  --line-height-body: 1.9;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── Header ── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1.25rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+header h1 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+header h1 span { color: var(--accent); }
+
+/* ── Layout ── */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+/* ── Input Phase ── */
+.input-phase {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(44,36,22,0.06);
+}
+.input-phase label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+textarea {
+  width: 100%;
+  min-height: 220px;
+  border: 2px solid transparent;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--ink);
+  resize: vertical;
+  line-height: 1.75;
+  transition: border-color 0.2s;
+}
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+}
+textarea::placeholder { color: var(--ink-faint); }
+
+.btn-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover { background: #a8452d; transform: translateY(-1px); box-shadow: 0 4px 12px var(--accent-glow); }
+.btn-secondary {
+  background: var(--spoiler-bg);
+  color: var(--ink-soft);
+}
+.btn-secondary:hover { background: var(--spoiler-hover); color: var(--ink); }
+.btn:active { transform: translateY(0); }
+
+.example-hint {
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 3px;
+}
+.example-hint:hover { color: var(--ink-soft); }
+
+/* ── Study Phase ── */
+.study-phase {
+  display: none;
+}
+.study-phase.active { display: block; }
+
+.toolbar {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.toolbar .spacer { flex: 1; }
+.progress {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  padding: 0.25rem 0.6rem;
+  background: var(--bg-card);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(44,36,22,0.06);
+}
+
+.font-size-controls {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+.size-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  background: var(--bg-card);
+  border: 1px solid rgba(44,36,22,0.1);
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.size-btn:hover { color: var(--ink); border-color: var(--accent); background: var(--accent-glow); }
+
+.study-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(44,36,22,0.06);
+  overflow: hidden;
+  font-size: 0.92rem;
+  transition: font-size 0.15s;
+}
+
+/* ── Study Lines ── */
+.study-line {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.55rem 1rem 0.55rem 0;
+  border-bottom: 1px solid rgba(44,36,22,0.05);
+  transition: background 0.2s;
+  min-height: 2.4rem;
+}
+.study-line:last-child { border-bottom: none; }
+.study-line.line-revealed { background: var(--line-reveal-bg); }
+.study-line.empty-line { min-height: 1.4rem; }
+
+.line-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  min-width: 3rem;
+  text-align: right;
+  padding-right: 0.9rem;
+  padding-top: 0.15rem;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.line-toggle {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink-faint);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.7rem;
+  margin-top: 0.1rem;
+  transition: all 0.15s;
+  color: var(--ink-faint);
+  font-size: 0.7rem;
+  padding: 0;
+}
+.line-toggle:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+.line-toggle.toggled { border-color: var(--reveal-border); background: var(--reveal-bg); color: var(--reveal-border); }
+
+.line-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.45rem;
+  flex: 1;
+  align-items: baseline;
+}
+
+/* ── Word tokens ── */
+.word-token {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+  transition: all 0.15s;
+  user-select: none;
+  position: relative;
+  line-height: 1.5;
+}
+
+.word-token.hidden-word .first-letter {
+  font-weight: 600;
+  color: var(--accent);
+}
+.word-token.hidden-word .rest-letters {
+  color: transparent;
+  background: var(--spoiler-bg);
+  border-radius: 3px;
+  margin-left: 1px;
+  transition: all 0.15s;
+  position: relative;
+}
+.word-token.hidden-word:hover .rest-letters {
+  background: var(--spoiler-hover);
+}
+.word-token.hidden-word:hover {
+  background: rgba(44,36,22,0.03);
+}
+
+.word-token.revealed-word {
+  color: var(--ink);
+  background: var(--reveal-bg);
+}
+.word-token.revealed-word .first-letter {
+  font-weight: 600;
+  color: var(--accent);
+}
+.word-token.revealed-word .rest-letters {
+  color: var(--ink);
+  background: transparent;
+}
+
+/* punctuation attached */
+.word-token .punctuation {
+  color: var(--ink-faint);
+}
+.word-token.revealed-word .punctuation {
+  color: var(--ink-soft);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  header h1 { font-size: 1rem; }
+  .input-phase, .study-card { border-radius: 8px; }
+  textarea { min-height: 160px; font-size: 0.85rem; }
+  .line-num { min-width: 2.2rem; font-size: 0.7rem; padding-right: 0.5rem; }
+  .study-line { padding: 0.45rem 0.6rem 0.45rem 0; }
+  .word-token { font-size: inherit; }
+}
+
+/* ── Theme Select ── */
+.theme-select-wrap {
+  display: flex;
+  align-items: center;
+}
+.theme-select {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  background: var(--bg-card);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.theme-select:hover, .theme-select:focus {
+  border-color: var(--accent);
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.study-phase.active { animation: fadeInUp 0.35s ease; }
+.study-line { animation: fadeInUp 0.25s ease both; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The <span>First Letter</span> Method</h1>
+  <div class="theme-select-wrap">
+    <select id="themeSelect" class="theme-select" onchange="setTheme(this.value)">
+      <optgroup label="General">
+        <option value="parchment">Parchment</option>
+        <option value="light">Clean Light</option>
+        <option value="dark">Dark</option>
+        <option value="midnight">Midnight</option>
+      </optgroup>
+      <optgroup label="Themed">
+        <option value="ocean">Ocean</option>
+        <option value="forest">Forest</option>
+        <option value="rose">Rose</option>
+      </optgroup>
+      <optgroup label="Accessibility">
+        <option value="highcontrast">High Contrast</option>
+        <option value="dyslexia">Dyslexia Friendly</option>
+      </optgroup>
+    </select>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- INPUT PHASE -->
+  <div class="input-phase" id="inputPhase">
+    <label for="sourceText">Your text to memorize</label>
+    <textarea id="sourceText" placeholder="Paste a poem, speech, list, lyrics, or any text you want to memorize..."></textarea>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startStudy()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 8h14M8 1l7 7-7 7"/></svg>
+        Start Studying
+      </button>
+    </div>
+    <div class="example-hint" onclick="loadExample()">Try with an example text</div>
+  </div>
+
+  <!-- STUDY PHASE -->
+  <div class="study-phase" id="studyPhase">
+    <div class="toolbar">
+      <button class="btn btn-secondary" onclick="backToInput()">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 7H1M7 1L1 7l6 6"/></svg>
+        Edit Text
+      </button>
+      <button class="btn btn-secondary" onclick="revealAll()">Reveal All</button>
+      <button class="btn btn-secondary" onclick="hideAll()">Hide All</button>
+      <div class="spacer"></div>
+      <div class="font-size-controls">
+        <button class="size-btn" onclick="changeFontSize(-1)" title="Smaller text">A−</button>
+        <button class="size-btn" onclick="changeFontSize(1)" title="Larger text">A+</button>
+      </div>
+      <div class="progress" id="progressLabel">0 / 0 revealed</div>
+    </div>
+    <div class="study-card" id="studyCard"></div>
+  </div>
+
+</div>
+
+<script>
+const EXAMPLE_TEXT = `To be, or not to be, that is the question:
+Whether 'tis nobler in the mind to suffer
+The slings and arrows of outrageous fortune,
+Or to take arms against a sea of troubles
+And by opposing end them. To die—to sleep,
+No more; and by a sleep to say we end
+The heart-ache and the thousand natural shocks
+That flesh is heir to: 'tis a consummation
+Devoutly to be wished.`;
+
+// ── Theme System ──
+function setTheme(name) {
+  document.documentElement.setAttribute('data-theme', name);
+  document.getElementById('themeSelect').value = name;
+  try { localStorage.setItem('flm-theme', name); } catch(e) {}
+}
+
+// restore saved theme
+(function() {
+  let saved;
+  try { saved = localStorage.getItem('flm-theme'); } catch(e) {}
+  setTheme(saved || 'parchment');
+})();
+
+let lines = [];       // [{words: [{raw, leading, core, trailing, revealed}]}]
+let totalWords = 0;
+let revealedCount = 0;
+
+const FONT_SIZES = [0.75, 0.84, 0.92, 1.02, 1.14, 1.28, 1.44];
+let fontSizeIdx = 2; // default 0.92rem
+
+function changeFontSize(dir) {
+  const newIdx = fontSizeIdx + dir;
+  if (newIdx < 0 || newIdx >= FONT_SIZES.length) return;
+  fontSizeIdx = newIdx;
+  document.getElementById('studyCard').style.fontSize = FONT_SIZES[fontSizeIdx] + 'rem';
+}
+
+function loadExample() {
+  document.getElementById('sourceText').value = EXAMPLE_TEXT;
+}
+
+function startStudy() {
+  const raw = document.getElementById('sourceText').value.trim();
+  if (!raw) return;
+
+  const rawLines = raw.split('\n');
+  lines = [];
+  totalWords = 0;
+  revealedCount = 0;
+
+  for (const rl of rawLines) {
+    if (rl.trim() === '') {
+      lines.push({ words: [], empty: true });
+      continue;
+    }
+    const tokens = rl.split(/(\s+)/);
+    const words = [];
+    for (const t of tokens) {
+      if (/^\s+$/.test(t)) continue;
+      // separate leading/trailing punctuation from core word
+      const match = t.match(/^([^a-zA-Z\u00C0-\u024F\u0400-\u04FF]*)([a-zA-Z\u00C0-\u024F\u0400-\u04FF][\s\S]*?)([^a-zA-Z\u00C0-\u024F\u0400-\u04FF]*)$/);
+      if (match) {
+        words.push({ raw: t, leading: match[1], core: match[2], trailing: match[3], revealed: false });
+      } else {
+        // pure punctuation or symbols
+        words.push({ raw: t, leading: '', core: t, trailing: '', revealed: false, isPunct: true });
+      }
+      totalWords++;
+    }
+    lines.push({ words, empty: false });
+  }
+
+  renderStudy();
+  document.getElementById('inputPhase').style.display = 'none';
+  document.getElementById('studyPhase').classList.add('active');
+}
+
+function renderStudy() {
+  const card = document.getElementById('studyCard');
+  card.innerHTML = '';
+  let lineIdx = 0;
+
+  for (let li = 0; li < lines.length; li++) {
+    const line = lines[li];
+    if (line.empty) continue;
+
+    const row = document.createElement('div');
+    row.className = 'study-line';
+    row.style.animationDelay = `${Math.min(li * 0.03, 0.6)}s`;
+
+    // line number
+    const num = document.createElement('div');
+    num.className = 'line-num';
+    num.textContent = ++lineIdx;
+    row.appendChild(num);
+
+    {
+      // toggle button
+      const tog = document.createElement('button');
+      tog.className = 'line-toggle';
+      tog.innerHTML = '&#9654;';
+      tog.title = 'Reveal/hide entire line';
+      tog.setAttribute('data-line', li);
+      tog.onclick = () => toggleLine(li);
+      row.appendChild(tog);
+
+      // words
+      const wordsDiv = document.createElement('div');
+      wordsDiv.className = 'line-words';
+      wordsDiv.setAttribute('data-line-words', li);
+
+      for (let wi = 0; wi < line.words.length; wi++) {
+        const w = line.words[wi];
+        const span = createWordToken(w, li, wi);
+        wordsDiv.appendChild(span);
+      }
+      row.appendChild(wordsDiv);
+    }
+    card.appendChild(row);
+  }
+  updateProgress();
+}
+
+function createWordToken(w, li, wi) {
+  const span = document.createElement('span');
+  span.setAttribute('data-li', li);
+  span.setAttribute('data-wi', wi);
+
+  if (w.isPunct) {
+    span.className = 'word-token revealed-word';
+    span.innerHTML = `<span class="punctuation">${esc(w.raw)}</span>`;
+    return span;
+  }
+
+  span.onclick = () => toggleWord(li, wi);
+
+  if (w.revealed) {
+    span.className = 'word-token revealed-word';
+    span.innerHTML =
+      esc(w.leading) +
+      `<span class="first-letter">${esc(w.core[0])}</span>` +
+      `<span class="rest-letters">${esc(w.core.slice(1))}</span>` +
+      `<span class="punctuation">${esc(w.trailing)}</span>`;
+  } else {
+    span.className = 'word-token hidden-word';
+    const blanked = '\u2009'.repeat(Math.max(w.core.length - 1, 1)); // thin spaces for width
+    span.innerHTML =
+      esc(w.leading) +
+      `<span class="first-letter">${esc(w.core[0])}</span>` +
+      `<span class="rest-letters">${blanked}</span>` +
+      `<span class="punctuation">${esc(w.trailing)}</span>`;
+  }
+  return span;
+}
+
+function toggleWord(li, wi) {
+  const w = lines[li].words[wi];
+  if (w.isPunct) return;
+  w.revealed = !w.revealed;
+  revealedCount += w.revealed ? 1 : -1;
+
+  // re-render just this token
+  const container = document.querySelector(`[data-line-words="${li}"]`);
+  const oldSpan = container.children[wi];
+  const newSpan = createWordToken(w, li, wi);
+  container.replaceChild(newSpan, oldSpan);
+
+  updateLineToggle(li);
+  updateProgress();
+}
+
+function toggleLine(li) {
+  const line = lines[li];
+  if (line.empty) return;
+  const allRevealed = line.words.filter(w => !w.isPunct).every(w => w.revealed);
+
+  for (const w of line.words) {
+    if (w.isPunct) continue;
+    if (allRevealed) {
+      if (w.revealed) { w.revealed = false; revealedCount--; }
+    } else {
+      if (!w.revealed) { w.revealed = true; revealedCount++; }
+    }
+  }
+
+  // re-render line words
+  const container = document.querySelector(`[data-line-words="${li}"]`);
+  container.innerHTML = '';
+  for (let wi = 0; wi < line.words.length; wi++) {
+    container.appendChild(createWordToken(line.words[wi], li, wi));
+  }
+
+  updateLineToggle(li);
+  updateLineHighlight(li);
+  updateProgress();
+}
+
+function updateLineToggle(li) {
+  const line = lines[li];
+  const allRevealed = line.words.filter(w => !w.isPunct).every(w => w.revealed);
+  const btn = document.querySelector(`.line-toggle[data-line="${li}"]`);
+  if (btn) {
+    btn.classList.toggle('toggled', allRevealed);
+    btn.innerHTML = allRevealed ? '&#10003;' : '&#9654;';
+  }
+  updateLineHighlight(li);
+}
+
+function updateLineHighlight(li) {
+  const line = lines[li];
+  const allRevealed = line.words.filter(w => !w.isPunct).every(w => w.revealed);
+  const row = document.querySelectorAll('.study-line')[li];
+  if (row) row.classList.toggle('line-revealed', allRevealed);
+}
+
+function revealAll() {
+  const real = lines.reduce((s, l) => s + l.words.filter(w => !w.isPunct).length, 0);
+  if (revealedCount === real) return;
+  revealedCount = 0;
+  for (const line of lines) {
+    for (const w of line.words) {
+      if (!w.isPunct) { w.revealed = true; revealedCount++; }
+    }
+  }
+  renderStudy();
+  // update all toggles
+  for (let li = 0; li < lines.length; li++) {
+    updateLineToggle(li);
+  }
+}
+
+function hideAll() {
+  if (revealedCount === 0) return;
+  revealedCount = 0;
+  for (const line of lines) {
+    for (const w of line.words) {
+      if (!w.isPunct) w.revealed = false;
+    }
+  }
+  renderStudy();
+}
+
+function updateProgress() {
+  const real = lines.reduce((s, l) => s + l.words.filter(w => !w.isPunct).length, 0);
+  document.getElementById('progressLabel').textContent = `${revealedCount} / ${real} revealed`;
+}
+
+function backToInput() {
+  document.getElementById('studyPhase').classList.remove('active');
+  document.getElementById('inputPhase').style.display = 'block';
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
