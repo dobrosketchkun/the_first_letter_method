@@ -21,4 +21,4 @@ Live at: https://dobrosketchkun.github.io/the_first_letter_method/
 - Theme preference saved across sessions
 - Single HTML file, no dependencies, no build step
 
-![Screenshot](https://raw.githubusercontent.com/dobrosketchkun/the_first_letter_method/refs/heads/main/misc/firstletter.jpg)
+![Screenshot](https://raw.githubusercontent.com/dobrosketchkun/the_first_letter_method/refs/heads/main/misc/firstletter.png)
